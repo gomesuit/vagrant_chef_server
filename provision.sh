@@ -30,11 +30,12 @@ cd /home/vagrant/provisioner_chef_server
 #chef-client -z
 
 
-yum insyall -y https://web-dl.packagecloud.io/chef/stable/packages/el/6/chef-server-core-12.1.0-1.el6.x86_64.rpm
+yum install -y https://web-dl.packagecloud.io/chef/stable/packages/el/6/chef-server-core-12.1.0-1.el6.x86_64.rpm
 #yum install -y https://opscode-omnibus-packages.s3.amazonaws.com/el/6/x86_64/chefdk-0.6.2-1.el6.x86_64.rpm
 chef-server-ctl reconfigure
 chef-server-ctl test
-#chef-server-ctl user-create admin firstname lastname your@mail.address password --filename admin.pem
-#chef-server-ctl org-create chef "Chef" --association admin --filename chef-validator.pem
+chef-server-ctl user-create admin firstname lastname your@mail.address password --filename .chef/admin.pem
+chef-server-ctl org-create chef "Chef" --association admin --filename .chef/chef-validator.pem
+knife ssl fetch -s https://ansible/organizations/chef/
 knife cookbook upload learn_chef_httpd
 knife bootstrap localhost -N localhost --run-list 'recipe[learn_chef_httpd]'
